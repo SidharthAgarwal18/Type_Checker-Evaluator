@@ -1,4 +1,4 @@
-#Type checker and Evaluator
+# Type checker and Evaluator
 
 ## Boolean and Airthmetic expressions
 * This is a program for lexing, parsing, type-checking and evaluation of expression trees generated,for a custom functional langauge
