@@ -1,0 +1,1453 @@
+
+state 0:
+
+	START : . program 
+
+	NUM	shift 15
+	FALSE	shift 14
+	TRUE	shift 13
+	NOT	shift 12
+	IF	shift 11
+	LPAREN	shift 10
+	ID	shift 9
+	NEGATE	shift 8
+	LET	shift 7
+	FN	shift 6
+	FUN	shift 5
+
+	START	goto 84
+	program	goto 4
+	statement	goto 3
+	formula	goto 2
+	function	goto 1
+
+	.	error
+
+
+state 1:
+
+	statement : function .  (reduce by rule 4)
+
+
+
+	.	reduce by rule 4
+
+
+state 2:
+
+	statement : formula .  (reduce by rule 3)
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : formula . PLUS formula 
+	formula : formula . MINUS formula 
+	formula : formula . TIMES formula 
+	formula : formula . LESSTHAN formula 
+	formula : formula . GREATERTHAN formula 
+
+	AND	shift 25
+	OR	shift 24
+	XOR	shift 23
+	EQUALS	shift 22
+	IMPLIES	shift 21
+	PLUS	shift 20
+	MINUS	shift 19
+	TIMES	shift 18
+	LESSTHAN	shift 17
+	GREATERTHAN	shift 16
+
+
+	.	reduce by rule 3
+
+
+state 3:
+
+	program : statement . TERM program 
+	program : statement .  (reduce by rule 2)
+
+	TERM	shift 26
+
+
+	.	reduce by rule 2
+
+
+state 4:
+
+	START : program .  (reduce by rule 0)
+
+
+
+	.	reduce by rule 0
+
+
+state 5:
+
+	function : FUN . ID LPAREN ID COLON vartype RPAREN COLON vartype FARROW formula 
+
+	ID	shift 27
+
+
+	.	error
+
+
+state 6:
+
+	formula : FN . LPAREN ID COLON vartype RPAREN COLON vartype FARROW formula 
+
+	LPAREN	shift 28
+
+
+	.	error
+
+
+state 7:
+
+	formula : LET . dec IN formula END 
+
+	ID	shift 31
+	FUN	shift 5
+
+	dec	goto 30
+	function	goto 29
+
+	.	error
+
+
+state 8:
+
+	formula : NEGATE . formula 
+
+	NUM	shift 15
+	FALSE	shift 14
+	TRUE	shift 13
+	NOT	shift 12
+	IF	shift 11
+	LPAREN	shift 10
+	ID	shift 9
+	NEGATE	shift 8
+	LET	shift 7
+	FN	shift 6
+
+	formula	goto 32
+
+	.	error
+
+
+state 9:
+
+	formula : ID .  (reduce by rule 27)
+
+
+
+	.	reduce by rule 27
+
+
+state 10:
+
+	formula : LPAREN . formula RPAREN 
+	formula : LPAREN . formula formula RPAREN 
+
+	NUM	shift 15
+	FALSE	shift 14
+	TRUE	shift 13
+	NOT	shift 12
+	IF	shift 11
+	LPAREN	shift 10
+	ID	shift 9
+	NEGATE	shift 8
+	LET	shift 7
+	FN	shift 6
+
+	formula	goto 33
+
+	.	error
+
+
+state 11:
+
+	formula : IF . formula THEN formula ELSE formula FI 
+
+	NUM	shift 15
+	FALSE	shift 14
+	TRUE	shift 13
+	NOT	shift 12
+	IF	shift 11
+	LPAREN	shift 10
+	ID	shift 9
+	NEGATE	shift 8
+	LET	shift 7
+	FN	shift 6
+
+	formula	goto 34
+
+	.	error
+
+
+state 12:
+
+	formula : NOT . formula 
+
+	NUM	shift 15
+	FALSE	shift 14
+	TRUE	shift 13
+	NOT	shift 12
+	IF	shift 11
+	LPAREN	shift 10
+	ID	shift 9
+	NEGATE	shift 8
+	LET	shift 7
+	FN	shift 6
+
+	formula	goto 35
+
+	.	error
+
+
+state 13:
+
+	formula : TRUE .  (reduce by rule 8)
+
+
+
+	.	reduce by rule 8
+
+
+state 14:
+
+	formula : FALSE .  (reduce by rule 9)
+
+
+
+	.	reduce by rule 9
+
+
+state 15:
+
+	formula : NUM .  (reduce by rule 7)
+
+
+
+	.	reduce by rule 7
+
+
+state 16:
+
+	formula : formula GREATERTHAN . formula 
+
+	NUM	shift 15
+	FALSE	shift 14
+	TRUE	shift 13
+	NOT	shift 12
+	IF	shift 11
+	LPAREN	shift 10
+	ID	shift 9
+	NEGATE	shift 8
+	LET	shift 7
+	FN	shift 6
+
+	formula	goto 36
+
+	.	error
+
+
+state 17:
+
+	formula : formula LESSTHAN . formula 
+
+	NUM	shift 15
+	FALSE	shift 14
+	TRUE	shift 13
+	NOT	shift 12
+	IF	shift 11
+	LPAREN	shift 10
+	ID	shift 9
+	NEGATE	shift 8
+	LET	shift 7
+	FN	shift 6
+
+	formula	goto 37
+
+	.	error
+
+
+state 18:
+
+	formula : formula TIMES . formula 
+
+	NUM	shift 15
+	FALSE	shift 14
+	TRUE	shift 13
+	NOT	shift 12
+	IF	shift 11
+	LPAREN	shift 10
+	ID	shift 9
+	NEGATE	shift 8
+	LET	shift 7
+	FN	shift 6
+
+	formula	goto 38
+
+	.	error
+
+
+state 19:
+
+	formula : formula MINUS . formula 
+
+	NUM	shift 15
+	FALSE	shift 14
+	TRUE	shift 13
+	NOT	shift 12
+	IF	shift 11
+	LPAREN	shift 10
+	ID	shift 9
+	NEGATE	shift 8
+	LET	shift 7
+	FN	shift 6
+
+	formula	goto 39
+
+	.	error
+
+
+state 20:
+
+	formula : formula PLUS . formula 
+
+	NUM	shift 15
+	FALSE	shift 14
+	TRUE	shift 13
+	NOT	shift 12
+	IF	shift 11
+	LPAREN	shift 10
+	ID	shift 9
+	NEGATE	shift 8
+	LET	shift 7
+	FN	shift 6
+
+	formula	goto 40
+
+	.	error
+
+
+state 21:
+
+	formula : formula IMPLIES . formula 
+
+	NUM	shift 15
+	FALSE	shift 14
+	TRUE	shift 13
+	NOT	shift 12
+	IF	shift 11
+	LPAREN	shift 10
+	ID	shift 9
+	NEGATE	shift 8
+	LET	shift 7
+	FN	shift 6
+
+	formula	goto 41
+
+	.	error
+
+
+state 22:
+
+	formula : formula EQUALS . formula 
+
+	NUM	shift 15
+	FALSE	shift 14
+	TRUE	shift 13
+	NOT	shift 12
+	IF	shift 11
+	LPAREN	shift 10
+	ID	shift 9
+	NEGATE	shift 8
+	LET	shift 7
+	FN	shift 6
+
+	formula	goto 42
+
+	.	error
+
+
+state 23:
+
+	formula : formula XOR . formula 
+
+	NUM	shift 15
+	FALSE	shift 14
+	TRUE	shift 13
+	NOT	shift 12
+	IF	shift 11
+	LPAREN	shift 10
+	ID	shift 9
+	NEGATE	shift 8
+	LET	shift 7
+	FN	shift 6
+
+	formula	goto 43
+
+	.	error
+
+
+state 24:
+
+	formula : formula OR . formula 
+
+	NUM	shift 15
+	FALSE	shift 14
+	TRUE	shift 13
+	NOT	shift 12
+	IF	shift 11
+	LPAREN	shift 10
+	ID	shift 9
+	NEGATE	shift 8
+	LET	shift 7
+	FN	shift 6
+
+	formula	goto 44
+
+	.	error
+
+
+state 25:
+
+	formula : formula AND . formula 
+
+	NUM	shift 15
+	FALSE	shift 14
+	TRUE	shift 13
+	NOT	shift 12
+	IF	shift 11
+	LPAREN	shift 10
+	ID	shift 9
+	NEGATE	shift 8
+	LET	shift 7
+	FN	shift 6
+
+	formula	goto 45
+
+	.	error
+
+
+state 26:
+
+	program : statement TERM . program 
+
+	NUM	shift 15
+	FALSE	shift 14
+	TRUE	shift 13
+	NOT	shift 12
+	IF	shift 11
+	LPAREN	shift 10
+	ID	shift 9
+	NEGATE	shift 8
+	LET	shift 7
+	FN	shift 6
+	FUN	shift 5
+
+	program	goto 46
+	statement	goto 3
+	formula	goto 2
+	function	goto 1
+
+	.	error
+
+
+state 27:
+
+	function : FUN ID . LPAREN ID COLON vartype RPAREN COLON vartype FARROW formula 
+
+	LPAREN	shift 47
+
+
+	.	error
+
+
+state 28:
+
+	formula : FN LPAREN . ID COLON vartype RPAREN COLON vartype FARROW formula 
+
+	ID	shift 48
+
+
+	.	error
+
+
+state 29:
+
+	dec : function .  (reduce by rule 6)
+
+
+
+	.	reduce by rule 6
+
+
+state 30:
+
+	formula : LET dec . IN formula END 
+
+	IN	shift 49
+
+
+	.	error
+
+
+state 31:
+
+	dec : ID . EQ formula 
+
+	EQ	shift 50
+
+
+	.	error
+
+
+state 32:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : formula . PLUS formula 
+	formula : formula . MINUS formula 
+	formula : formula . TIMES formula 
+	formula : NEGATE formula .  (reduce by rule 21)
+	formula : formula . LESSTHAN formula 
+	formula : formula . GREATERTHAN formula 
+
+
+
+	.	reduce by rule 21
+
+
+state 33:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : LPAREN formula . RPAREN 
+	formula : formula . PLUS formula 
+	formula : formula . MINUS formula 
+	formula : formula . TIMES formula 
+	formula : formula . LESSTHAN formula 
+	formula : formula . GREATERTHAN formula 
+	formula : LPAREN formula . formula RPAREN 
+
+	AND	shift 25
+	OR	shift 24
+	XOR	shift 23
+	EQUALS	shift 22
+	NUM	shift 15
+	FALSE	shift 14
+	TRUE	shift 13
+	NOT	shift 12
+	IMPLIES	shift 21
+	IF	shift 11
+	LPAREN	shift 10
+	RPAREN	shift 52
+	ID	shift 9
+	PLUS	shift 20
+	MINUS	shift 19
+	TIMES	shift 18
+	NEGATE	shift 8
+	LESSTHAN	shift 17
+	GREATERTHAN	shift 16
+	LET	shift 7
+	FN	shift 6
+
+	formula	goto 51
+
+	.	error
+
+
+state 34:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : IF formula . THEN formula ELSE formula FI 
+	formula : formula . PLUS formula 
+	formula : formula . MINUS formula 
+	formula : formula . TIMES formula 
+	formula : formula . LESSTHAN formula 
+	formula : formula . GREATERTHAN formula 
+
+	AND	shift 25
+	OR	shift 24
+	XOR	shift 23
+	EQUALS	shift 22
+	IMPLIES	shift 21
+	THEN	shift 53
+	PLUS	shift 20
+	MINUS	shift 19
+	TIMES	shift 18
+	LESSTHAN	shift 17
+	GREATERTHAN	shift 16
+
+
+	.	error
+
+
+state 35:
+
+	formula : NOT formula .  (reduce by rule 10)
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : formula . PLUS formula 
+	formula : formula . MINUS formula 
+	formula : formula . TIMES formula 
+	formula : formula . LESSTHAN formula 
+	formula : formula . GREATERTHAN formula 
+
+
+
+	.	reduce by rule 10
+
+
+state 36:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : formula . PLUS formula 
+	formula : formula . MINUS formula 
+	formula : formula . TIMES formula 
+	formula : formula . LESSTHAN formula 
+	formula : formula . GREATERTHAN formula 
+	formula : formula GREATERTHAN formula .  (reduce by rule 23)
+
+	PLUS	shift 20
+	MINUS	shift 19
+	TIMES	shift 18
+
+
+	.	reduce by rule 23
+
+
+state 37:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : formula . PLUS formula 
+	formula : formula . MINUS formula 
+	formula : formula . TIMES formula 
+	formula : formula . LESSTHAN formula 
+	formula : formula LESSTHAN formula .  (reduce by rule 22)
+	formula : formula . GREATERTHAN formula 
+
+	PLUS	shift 20
+	MINUS	shift 19
+	TIMES	shift 18
+
+
+	.	reduce by rule 22
+
+
+state 38:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : formula . PLUS formula 
+	formula : formula . MINUS formula 
+	formula : formula . TIMES formula 
+	formula : formula TIMES formula .  (reduce by rule 20)
+	formula : formula . LESSTHAN formula 
+	formula : formula . GREATERTHAN formula 
+
+
+
+	.	reduce by rule 20
+
+
+state 39:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : formula . PLUS formula 
+	formula : formula . MINUS formula 
+	formula : formula MINUS formula .  (reduce by rule 19)
+	formula : formula . TIMES formula 
+	formula : formula . LESSTHAN formula 
+	formula : formula . GREATERTHAN formula 
+
+	TIMES	shift 18
+
+
+	.	reduce by rule 19
+
+
+state 40:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : formula . PLUS formula 
+	formula : formula PLUS formula .  (reduce by rule 18)
+	formula : formula . MINUS formula 
+	formula : formula . TIMES formula 
+	formula : formula . LESSTHAN formula 
+	formula : formula . GREATERTHAN formula 
+
+	TIMES	shift 18
+
+
+	.	reduce by rule 18
+
+
+state 41:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : formula IMPLIES formula .  (reduce by rule 15)
+	formula : formula . PLUS formula 
+	formula : formula . MINUS formula 
+	formula : formula . TIMES formula 
+	formula : formula . LESSTHAN formula 
+	formula : formula . GREATERTHAN formula 
+
+	AND	shift 25
+	OR	shift 24
+	XOR	shift 23
+	EQUALS	shift 22
+	IMPLIES	shift 21
+	PLUS	shift 20
+	MINUS	shift 19
+	TIMES	shift 18
+	LESSTHAN	shift 17
+	GREATERTHAN	shift 16
+
+
+	.	reduce by rule 15
+
+
+state 42:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula EQUALS formula .  (reduce by rule 14)
+	formula : formula . IMPLIES formula 
+	formula : formula . PLUS formula 
+	formula : formula . MINUS formula 
+	formula : formula . TIMES formula 
+	formula : formula . LESSTHAN formula 
+	formula : formula . GREATERTHAN formula 
+
+	PLUS	shift 20
+	MINUS	shift 19
+	TIMES	shift 18
+	LESSTHAN	shift 17
+	GREATERTHAN	shift 16
+
+
+	.	reduce by rule 14
+
+
+state 43:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula XOR formula .  (reduce by rule 13)
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : formula . PLUS formula 
+	formula : formula . MINUS formula 
+	formula : formula . TIMES formula 
+	formula : formula . LESSTHAN formula 
+	formula : formula . GREATERTHAN formula 
+
+	PLUS	shift 20
+	MINUS	shift 19
+	TIMES	shift 18
+	LESSTHAN	shift 17
+	GREATERTHAN	shift 16
+
+
+	.	reduce by rule 13
+
+
+state 44:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula OR formula .  (reduce by rule 12)
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : formula . PLUS formula 
+	formula : formula . MINUS formula 
+	formula : formula . TIMES formula 
+	formula : formula . LESSTHAN formula 
+	formula : formula . GREATERTHAN formula 
+
+	PLUS	shift 20
+	MINUS	shift 19
+	TIMES	shift 18
+	LESSTHAN	shift 17
+	GREATERTHAN	shift 16
+
+
+	.	reduce by rule 12
+
+
+state 45:
+
+	formula : formula . AND formula 
+	formula : formula AND formula .  (reduce by rule 11)
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : formula . PLUS formula 
+	formula : formula . MINUS formula 
+	formula : formula . TIMES formula 
+	formula : formula . LESSTHAN formula 
+	formula : formula . GREATERTHAN formula 
+
+	PLUS	shift 20
+	MINUS	shift 19
+	TIMES	shift 18
+	LESSTHAN	shift 17
+	GREATERTHAN	shift 16
+
+
+	.	reduce by rule 11
+
+
+state 46:
+
+	program : statement TERM program .  (reduce by rule 1)
+
+
+
+	.	reduce by rule 1
+
+
+state 47:
+
+	function : FUN ID LPAREN . ID COLON vartype RPAREN COLON vartype FARROW formula 
+
+	ID	shift 54
+
+
+	.	error
+
+
+state 48:
+
+	formula : FN LPAREN ID . COLON vartype RPAREN COLON vartype FARROW formula 
+
+	COLON	shift 55
+
+
+	.	error
+
+
+state 49:
+
+	formula : LET dec IN . formula END 
+
+	NUM	shift 15
+	FALSE	shift 14
+	TRUE	shift 13
+	NOT	shift 12
+	IF	shift 11
+	LPAREN	shift 10
+	ID	shift 9
+	NEGATE	shift 8
+	LET	shift 7
+	FN	shift 6
+
+	formula	goto 56
+
+	.	error
+
+
+state 50:
+
+	dec : ID EQ . formula 
+
+	NUM	shift 15
+	FALSE	shift 14
+	TRUE	shift 13
+	NOT	shift 12
+	IF	shift 11
+	LPAREN	shift 10
+	ID	shift 9
+	NEGATE	shift 8
+	LET	shift 7
+	FN	shift 6
+
+	formula	goto 57
+
+	.	error
+
+
+state 51:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : formula . PLUS formula 
+	formula : formula . MINUS formula 
+	formula : formula . TIMES formula 
+	formula : formula . LESSTHAN formula 
+	formula : formula . GREATERTHAN formula 
+	formula : LPAREN formula formula . RPAREN 
+
+	AND	shift 25
+	OR	shift 24
+	XOR	shift 23
+	EQUALS	shift 22
+	IMPLIES	shift 21
+	RPAREN	shift 58
+	PLUS	shift 20
+	MINUS	shift 19
+	TIMES	shift 18
+	LESSTHAN	shift 17
+	GREATERTHAN	shift 16
+
+
+	.	error
+
+
+state 52:
+
+	formula : LPAREN formula RPAREN .  (reduce by rule 17)
+
+
+
+	.	reduce by rule 17
+
+
+state 53:
+
+	formula : IF formula THEN . formula ELSE formula FI 
+
+	NUM	shift 15
+	FALSE	shift 14
+	TRUE	shift 13
+	NOT	shift 12
+	IF	shift 11
+	LPAREN	shift 10
+	ID	shift 9
+	NEGATE	shift 8
+	LET	shift 7
+	FN	shift 6
+
+	formula	goto 59
+
+	.	error
+
+
+state 54:
+
+	function : FUN ID LPAREN ID . COLON vartype RPAREN COLON vartype FARROW formula 
+
+	COLON	shift 60
+
+
+	.	error
+
+
+state 55:
+
+	formula : FN LPAREN ID COLON . vartype RPAREN COLON vartype FARROW formula 
+
+	LPAREN	shift 64
+	INT	shift 63
+	BOOL	shift 62
+
+	vartype	goto 61
+
+	.	error
+
+
+state 56:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : formula . PLUS formula 
+	formula : formula . MINUS formula 
+	formula : formula . TIMES formula 
+	formula : formula . LESSTHAN formula 
+	formula : formula . GREATERTHAN formula 
+	formula : LET dec IN formula . END 
+
+	AND	shift 25
+	OR	shift 24
+	XOR	shift 23
+	EQUALS	shift 22
+	IMPLIES	shift 21
+	PLUS	shift 20
+	MINUS	shift 19
+	TIMES	shift 18
+	LESSTHAN	shift 17
+	GREATERTHAN	shift 16
+	END	shift 65
+
+
+	.	error
+
+
+state 57:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : formula . PLUS formula 
+	formula : formula . MINUS formula 
+	formula : formula . TIMES formula 
+	formula : formula . LESSTHAN formula 
+	formula : formula . GREATERTHAN formula 
+	dec : ID EQ formula .  (reduce by rule 5)
+
+	AND	shift 25
+	OR	shift 24
+	XOR	shift 23
+	EQUALS	shift 22
+	IMPLIES	shift 21
+	PLUS	shift 20
+	MINUS	shift 19
+	TIMES	shift 18
+	LESSTHAN	shift 17
+	GREATERTHAN	shift 16
+
+
+	.	reduce by rule 5
+
+
+state 58:
+
+	formula : LPAREN formula formula RPAREN .  (reduce by rule 26)
+
+
+
+	.	reduce by rule 26
+
+
+state 59:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : IF formula THEN formula . ELSE formula FI 
+	formula : formula . PLUS formula 
+	formula : formula . MINUS formula 
+	formula : formula . TIMES formula 
+	formula : formula . LESSTHAN formula 
+	formula : formula . GREATERTHAN formula 
+
+	AND	shift 25
+	OR	shift 24
+	XOR	shift 23
+	EQUALS	shift 22
+	IMPLIES	shift 21
+	ELSE	shift 66
+	PLUS	shift 20
+	MINUS	shift 19
+	TIMES	shift 18
+	LESSTHAN	shift 17
+	GREATERTHAN	shift 16
+
+
+	.	error
+
+
+state 60:
+
+	function : FUN ID LPAREN ID COLON . vartype RPAREN COLON vartype FARROW formula 
+
+	LPAREN	shift 64
+	INT	shift 63
+	BOOL	shift 62
+
+	vartype	goto 67
+
+	.	error
+
+
+state 61:
+
+	formula : FN LPAREN ID COLON vartype . RPAREN COLON vartype FARROW formula 
+	vartype : vartype . ARROW vartype 
+
+	RPAREN	shift 69
+	ARROW	shift 68
+
+
+	.	error
+
+
+state 62:
+
+	vartype : BOOL .  (reduce by rule 30)
+
+
+
+	.	reduce by rule 30
+
+
+state 63:
+
+	vartype : INT .  (reduce by rule 29)
+
+
+
+	.	reduce by rule 29
+
+
+state 64:
+
+	vartype : LPAREN . vartype RPAREN 
+
+	LPAREN	shift 64
+	INT	shift 63
+	BOOL	shift 62
+
+	vartype	goto 70
+
+	.	error
+
+
+state 65:
+
+	formula : LET dec IN formula END .  (reduce by rule 24)
+
+
+
+	.	reduce by rule 24
+
+
+state 66:
+
+	formula : IF formula THEN formula ELSE . formula FI 
+
+	NUM	shift 15
+	FALSE	shift 14
+	TRUE	shift 13
+	NOT	shift 12
+	IF	shift 11
+	LPAREN	shift 10
+	ID	shift 9
+	NEGATE	shift 8
+	LET	shift 7
+	FN	shift 6
+
+	formula	goto 71
+
+	.	error
+
+
+state 67:
+
+	vartype : vartype . ARROW vartype 
+	function : FUN ID LPAREN ID COLON vartype . RPAREN COLON vartype FARROW formula 
+
+	RPAREN	shift 72
+	ARROW	shift 68
+
+
+	.	error
+
+
+state 68:
+
+	vartype : vartype ARROW . vartype 
+
+	LPAREN	shift 64
+	INT	shift 63
+	BOOL	shift 62
+
+	vartype	goto 73
+
+	.	error
+
+
+state 69:
+
+	formula : FN LPAREN ID COLON vartype RPAREN . COLON vartype FARROW formula 
+
+	COLON	shift 74
+
+
+	.	error
+
+
+state 70:
+
+	vartype : vartype . ARROW vartype 
+	vartype : LPAREN vartype . RPAREN 
+
+	RPAREN	shift 75
+	ARROW	shift 68
+
+
+	.	error
+
+
+state 71:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : IF formula THEN formula ELSE formula . FI 
+	formula : formula . PLUS formula 
+	formula : formula . MINUS formula 
+	formula : formula . TIMES formula 
+	formula : formula . LESSTHAN formula 
+	formula : formula . GREATERTHAN formula 
+
+	AND	shift 25
+	OR	shift 24
+	XOR	shift 23
+	EQUALS	shift 22
+	IMPLIES	shift 21
+	FI	shift 76
+	PLUS	shift 20
+	MINUS	shift 19
+	TIMES	shift 18
+	LESSTHAN	shift 17
+	GREATERTHAN	shift 16
+
+
+	.	error
+
+
+state 72:
+
+	function : FUN ID LPAREN ID COLON vartype RPAREN . COLON vartype FARROW formula 
+
+	COLON	shift 77
+
+
+	.	error
+
+
+state 73:
+
+	vartype : vartype . ARROW vartype 
+	vartype : vartype ARROW vartype .  (reduce by rule 31)
+
+	ARROW	shift 68
+
+
+	.	reduce by rule 31
+
+
+state 74:
+
+	formula : FN LPAREN ID COLON vartype RPAREN COLON . vartype FARROW formula 
+
+	LPAREN	shift 64
+	INT	shift 63
+	BOOL	shift 62
+
+	vartype	goto 78
+
+	.	error
+
+
+state 75:
+
+	vartype : LPAREN vartype RPAREN .  (reduce by rule 32)
+
+
+
+	.	reduce by rule 32
+
+
+state 76:
+
+	formula : IF formula THEN formula ELSE formula FI .  (reduce by rule 16)
+
+
+
+	.	reduce by rule 16
+
+
+state 77:
+
+	function : FUN ID LPAREN ID COLON vartype RPAREN COLON . vartype FARROW formula 
+
+	LPAREN	shift 64
+	INT	shift 63
+	BOOL	shift 62
+
+	vartype	goto 79
+
+	.	error
+
+
+state 78:
+
+	formula : FN LPAREN ID COLON vartype RPAREN COLON vartype . FARROW formula 
+	vartype : vartype . ARROW vartype 
+
+	ARROW	shift 68
+	FARROW	shift 80
+
+
+	.	error
+
+
+state 79:
+
+	vartype : vartype . ARROW vartype 
+	function : FUN ID LPAREN ID COLON vartype RPAREN COLON vartype . FARROW formula 
+
+	ARROW	shift 68
+	FARROW	shift 81
+
+
+	.	error
+
+
+state 80:
+
+	formula : FN LPAREN ID COLON vartype RPAREN COLON vartype FARROW . formula 
+
+	NUM	shift 15
+	FALSE	shift 14
+	TRUE	shift 13
+	NOT	shift 12
+	IF	shift 11
+	LPAREN	shift 10
+	ID	shift 9
+	NEGATE	shift 8
+	LET	shift 7
+	FN	shift 6
+
+	formula	goto 82
+
+	.	error
+
+
+state 81:
+
+	function : FUN ID LPAREN ID COLON vartype RPAREN COLON vartype FARROW . formula 
+
+	NUM	shift 15
+	FALSE	shift 14
+	TRUE	shift 13
+	NOT	shift 12
+	IF	shift 11
+	LPAREN	shift 10
+	ID	shift 9
+	NEGATE	shift 8
+	LET	shift 7
+	FN	shift 6
+
+	formula	goto 83
+
+	.	error
+
+
+state 82:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : formula . PLUS formula 
+	formula : formula . MINUS formula 
+	formula : formula . TIMES formula 
+	formula : formula . LESSTHAN formula 
+	formula : formula . GREATERTHAN formula 
+	formula : FN LPAREN ID COLON vartype RPAREN COLON vartype FARROW formula .  (reduce by rule 25)
+
+	AND	shift 25
+	OR	shift 24
+	XOR	shift 23
+	EQUALS	shift 22
+	IMPLIES	shift 21
+	PLUS	shift 20
+	MINUS	shift 19
+	TIMES	shift 18
+	LESSTHAN	shift 17
+	GREATERTHAN	shift 16
+
+
+	.	reduce by rule 25
+
+
+state 83:
+
+	formula : formula . AND formula 
+	formula : formula . OR formula 
+	formula : formula . XOR formula 
+	formula : formula . EQUALS formula 
+	formula : formula . IMPLIES formula 
+	formula : formula . PLUS formula 
+	formula : formula . MINUS formula 
+	formula : formula . TIMES formula 
+	formula : formula . LESSTHAN formula 
+	formula : formula . GREATERTHAN formula 
+	function : FUN ID LPAREN ID COLON vartype RPAREN COLON vartype FARROW formula .  (reduce by rule 28)
+
+	AND	shift 25
+	OR	shift 24
+	XOR	shift 23
+	EQUALS	shift 22
+	IMPLIES	shift 21
+	PLUS	shift 20
+	MINUS	shift 19
+	TIMES	shift 18
+	LESSTHAN	shift 17
+	GREATERTHAN	shift 16
+
+
+	.	reduce by rule 28
+
+
+state 84:
+
+
+	EOF	accept
+
+
+	.	error
+
+204 of 505 action table entries left after compaction
+38 goto table entries
